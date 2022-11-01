@@ -19,9 +19,9 @@ public:
 
     std::string status();
     void moveTo(int x, int y);
+    void lineTo(int x, int y);
     void undo();
     void redo();
-    void lineTo(int x, int y);
 
 private:
     std::vector<Command*> m_history;

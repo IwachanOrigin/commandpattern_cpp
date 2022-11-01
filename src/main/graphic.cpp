@@ -1,6 +1,7 @@
 
 #include "graphic.h"
 #include "point.h"
+#include "command.h"
 #include "movecommand.h"
 #include "linecommand.h"
 
@@ -44,13 +45,9 @@ void dp::Graphic::moveTo(int x, int y)
     this->addHistory(new MoveCommand(new Point(x, y), this->getCurrentCommand()->getPoint()));
 }
 
-bool dp::Graphic::isRedoable()
+void dp::Graphic::lineTo(int x, int y)
 {
-    if (m_current < (int)m_history.size() - 1)
-    {
-        return true;
-    }
-    return false;
+    this->addHistory(new LineCommand(new Point(x, y), this->getCurrentCommand()->getPoint()));
 }
 
 void dp::Graphic::undo()
@@ -69,6 +66,15 @@ void dp::Graphic::redo()
         m_current++;
         this->getCurrentCommand()->execute();
     }
+}
+
+bool dp::Graphic::isRedoable()
+{
+    if (m_current < (int)m_history.size() - 1)
+    {
+        return true;
+    }
+    return false;
 }
 
 dp::Command* dp::Graphic::getCurrentCommand()
@@ -94,9 +100,4 @@ void dp::Graphic::addHistory(dp::Command* command)
     m_history.push_back(command);
     m_current++;
     command->execute();
-}
-
-void dp::Graphic::lineTo(int x, int y)
-{
-    this->addHistory(new LineCommand(new Point(x, y), this->getCurrentCommand()->getPoint()));
 }
