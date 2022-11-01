@@ -9,6 +9,7 @@ namespace design_pattern
 {
 
 class Point;
+class Command;
 
 class Graphic
 {
@@ -20,11 +21,15 @@ public:
     void moveTo(int x, int y);
     void undo();
     void redo();
+    void lineTo(int x, int y);
+
 private:
-    std::vector<Point*> m_history;
+    std::vector<Command*> m_history;
     int m_current;
 
     bool isRedoable();
+    Command* getCurrentCommand();
+    void addHistory(Command* command);
 };
 
 }
